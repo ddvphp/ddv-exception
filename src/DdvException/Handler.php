@@ -1,5 +1,5 @@
 <?php
-namespace DdvPhp\DdvException;
+ namespace DdvPhp\DdvException;
 /**
 *
 */
@@ -18,7 +18,11 @@ final class Handler
   public static function setHandler(\Closure $method, $isDevelopment = false){
     self::$handlerDir =  __DIR__.'/../handler/';
     self::$onHandler = $method;
-    self::$isDevelopment = &$isDevelopment;
+    if ($isDevelopment instanceof \Closure) {
+      self::$isDevelopment = $isDevelopment;
+    } else {
+      self::$isDevelopment = &$isDevelopment;
+    }
     self::setErrorHandlerInit();
     self::setExceptionHandlerInit();
   }
@@ -59,6 +63,14 @@ final class Handler
       die();
     }
   }
+  public static function isDevelopment(){
+    $isDevelopment = self::$isDevelopment;
+    if ($isDevelopment instanceof \Closure) {
+      return $isDevelopment();
+    } else {
+      return (bool)$isDevelopment;
+    }
+  }
   public static function exceptionHandler($e){
     //默认错误行数
     $errline = 0 ;
@@ -90,8 +102,9 @@ final class Handler
     if (method_exists($e,'getResponseData')) {
       $r = array_merge($e->getResponseData(), $r);
     }
+
     //调试模式
-    if (self::$isDevelopment) {
+    if (self::isDevelopment()) {
       $r['debug'] = array();
       $r['debug']['type'] = get_class($e);
       $r['debug']['line'] = $errline;
@@ -115,7 +128,7 @@ final class Handler
     $r['responseData'] = array();
     $e = new \Exception($message, $errorCode);
     //调试模式
-    if (self::$isDevelopment) {
+    if (self::isDevelopment()) {
       $r['debug'] = array();
       $r['debug']['type'] = 'Error';
       $r['debug']['line'] = $errline;
