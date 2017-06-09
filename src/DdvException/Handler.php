@@ -45,12 +45,13 @@ final class Handler
     require_once self::$handlerDir.'exception.handler.php';
   }
   public static function emitHandler($r, $e){
+    $onHandler=self::$onHandler;
     $r = is_array($r)?$r:array();
     if (intval($r['statusCode'])<100) {
       $r['statusCode'] = 500;
     }
     $r['message'] = empty($r['message'])?'':$r['message'];
-    self::$onHandler($r, $e);
+    $onHandler($r, $e);
   }
   public static function exceptionHandler($e){
     //默认错误行数

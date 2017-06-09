@@ -15,7 +15,7 @@ Usage - 使用
 
 ```php
 
-\DdvPhp\DdvException::setHandler(function (array $r, $e) {
+\DdvPhp\DdvException\Handler::setHandler(function (array $r, $e) {
   var_dump($r);  
 });
 
