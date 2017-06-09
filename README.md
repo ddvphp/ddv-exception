@@ -15,7 +15,7 @@ Usage - 使用
 
 ```php
 
-/DdvPhp/DdvException::setHandler(function (array $r, $e) {
+\DdvPhp\DdvException::setHandler(function (array $r, $e) {
   var_dump($r);  
 });
 
@@ -26,7 +26,7 @@ Usage - 使用
 
 ```php
 
-throw new /DdvPhp/DdvException/Error("测试一个异常", 'TEST_A_EXCEPTION');
+throw new \DdvPhp\DdvException\Error("测试一个异常", 'TEST_A_EXCEPTION');
 
 ```
 
