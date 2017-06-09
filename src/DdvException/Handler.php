@@ -1,5 +1,5 @@
 <?php
- namespace DdvPhp\DdvException;
+namespace DdvPhp\DdvException;
 /**
 *
 */
@@ -51,7 +51,13 @@ final class Handler
       $r['statusCode'] = 500;
     }
     $r['message'] = empty($r['message'])?'':$r['message'];
-    $onHandler($r, $e);
+    if ($onHandler instanceof \Closure) {
+      $onHandler($r, $e);
+    } else {
+      print_r($r);
+      print_r($e);
+      die();
+    }
   }
   public static function exceptionHandler($e){
     //默认错误行数
