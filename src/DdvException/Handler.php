@@ -105,7 +105,7 @@ final class Handler
 
     //调试模式
     if (self::isDevelopment()) {
-      $r['debug'] = array();
+      $r['debug'] = is_array($r['debug']) ? $r['debug'] : array();
       $r['debug']['type'] = get_class($e);
       $r['debug']['line'] = $errline;
       $r['debug']['file'] = $e->getFile();
@@ -113,6 +113,8 @@ final class Handler
       $r['debug']['trace'] = explode("\n", $r['debug']['trace']);
       $r['debug']['isError'] = false;
       $r['debug']['isIgnoreError'] = false;
+    }else if(isset($r['debug'])){
+       unset($r['debug']);
     }
     self::emitHandler($r, $e);
   }
