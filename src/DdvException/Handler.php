@@ -105,7 +105,7 @@ final class Handler
 
     //调试模式
     if (self::isDevelopment()) {
-      $r['debug'] = is_array($r['debug']) ? $r['debug'] : array();
+      $r['debug'] = isset($r['debug'])&&is_array($r['debug']) ? $r['debug'] : array();
       $r['debug']['type'] = get_class($e);
       $r['debug']['line'] = $errline;
       $r['debug']['file'] = $e->getFile();
